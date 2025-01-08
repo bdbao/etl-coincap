@@ -17,8 +17,8 @@ To run locally, you need:
 Clone the repo and run the following commands to start the data pipeline:
 
 ```bash
-git clone https://github.com/bdbao/etl_coincap.git
-cd etl_coincap
+git clone https://github.com/bdbao/etl-coincap.git
+cd etl-coincap
 make up
 sleep 30 # wait for Airflow to start
 make ci # run checks and tests
