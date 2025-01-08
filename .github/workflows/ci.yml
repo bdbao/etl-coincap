@@ -1,6 +1,9 @@
 # Note: Uncomment to start CI
 name: CI
-on: [pull_request]
+on: 
+  push:
+    branches:
+      - main
 jobs:
   run-ci-tests:
     runs-on: ubuntu-latest
