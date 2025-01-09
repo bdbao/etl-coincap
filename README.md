@@ -130,3 +130,4 @@ chmod 600 private_key.pem
 ssh -i private_key.pem ubuntu@<Public-IPv4-Address-AWS> # in: https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:sort=desc:dnsName
   docker ps
 ```
+- **Start the instance** on AWS before doing CD from Github Action.

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch: # Enables manual triggering on GitHub UI
 jobs:
   run-ci-tests:
     runs-on: ubuntu-latest

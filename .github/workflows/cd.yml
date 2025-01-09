@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch: # Enables manual triggering from the GitHub UI
 jobs:
   deploy-to-ec2:
     runs-on: ubuntu-latest
