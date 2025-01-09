@@ -110,29 +110,19 @@ make down # Stop docker containers on your computer
 make infra-down # type in yes after verifying the changes TF will make
 ```
 
-
+### More edit:
+- Install `aws-cli`:
 ```bash
 brew install awscli
-aws --version
 aws configure
-
-
-for line in (cat .env)
-    set -gx (echo $line | cut -d '=' -f1) (echo $line | cut -d '=' -f2-)
-end
-echo $AWS_ACCESS_KEY_ID
-echo $AWS_SECRET_ACCESS_KEY
-echo $AWS_DEFAULT_REGION
 ```
-
-Log into AWS Console. (https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/users/details/aws_01?section=permissions)
-Go to IAM > Users.
-Select the user aws_01.
-Click Add permissions → Attach policies directly.
-Search for and attach the policy: AdministratorAccess.
-Click Add permissions.
-
-### More edit:
+- Add `AdministratorAccess` permission to User: \
+  Log into **AWS Console permissions** (like: https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/users/details/aws_01?section=permissions)\
+  Go to IAM > Users.\
+  Select the user aws_01.\
+  Click Add permissions → Attach policies directly.\
+  Search for and attach the policy: AdministratorAccess.\
+  Click Add permissions.
 - Check the Airflow progress in EC2 instance:
 ```bash
 terraform -chdir=./terraform output -raw private_key > private_key.pem
