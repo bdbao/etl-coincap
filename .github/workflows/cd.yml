@@ -16,4 +16,4 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            sudo rsync -avz --delete ./ /home/ubuntu/etl-coincap
+            sudo rsync -avz --delete ./ /home/ubuntu
