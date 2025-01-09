@@ -128,4 +128,12 @@ Select the user aws_01.
 Click Add permissions → Attach policies directly.
 Search for and attach the policy: AdministratorAccess.
 Click Add permissions.
+
+- Check the Airflow progress in EC2 instance:
+```bash
+terraform -chdir=./terraform output -raw private_key > private_key.pem
+chmod 600 private_key.pem
+ssh -i private_key.pem ubuntu@<Public-IPv4-Address-AWS># 100.26.222.71  
+  docker ps
+```
 -->

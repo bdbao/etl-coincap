@@ -84,3 +84,4 @@ dashboard_files/
 .DS_Store
 *.html
 .env
+*.csv

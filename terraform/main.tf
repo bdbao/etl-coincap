@@ -113,7 +113,7 @@ echo 'Clone git repo to EC2'
 cd /home/ubuntu && git clone ${var.repo_url}
 
 echo 'CD to data_engineering_project_template directory'
-cd data_engineering_project_template
+cd ${var.repo_name}
 
 echo 'Start containers & Run db migrations'
 make up
@@ -131,7 +131,7 @@ resource "aws_budgets_budget" "ec2" {
   limit_amount      = "5"
   limit_unit        = "USD"
   time_period_end   = "2087-06-15_00:00"
-  time_period_start = "2022-10-22_00:00"
+  time_period_start = "2025-01-01_00:00"
   time_unit         = "MONTHLY"
 
   notification {

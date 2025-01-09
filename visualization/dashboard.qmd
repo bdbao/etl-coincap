@@ -18,7 +18,7 @@ import duckdb
 
 clean_data = duckdb.sql(f"select name, volumeUsd from '{file_path}' order by 2 desc limit 10").df()
 # Plot the top 10 exchanges' volumeUSD
-fig = px.bar(clean_data, x='Name', y='VolumeUSD', title='Top 10 Exchanges by VolumeUSD')
+fig = px.bar(clean_data, x='name', y='volumeUsd', title='Top 10 Exchanges by VolumeUSD')
 fig.show()
  
 ```

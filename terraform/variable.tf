@@ -32,3 +32,8 @@ variable "repo_url" {
   type        = string
   default     = "https://github.com/bdbao/etl-coincap.git"
 }
+variable "repo_name" {
+  description = "Repository name to access folder"
+  type        = string
+  default     = "etl-coincap"
+}
