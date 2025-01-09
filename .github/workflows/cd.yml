@@ -16,6 +16,4 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            git config --global --add safe.directory /home/ubuntu/etl-coincap
-            cd /home/ubuntu/etl-coincap
-            git pull
+            rsync -avz --delete ./ /home/ubuntu/etl-coincap
