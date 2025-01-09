@@ -20,6 +20,8 @@ jobs:
               git clone https://github.com/bdbao/etl-coincap /home/ubuntu/etl-coincap
             else
               cd /home/ubuntu/etl-coincap
-              git config --global --add safe.directory /home/ubuntu/etl-coincap
+              sudo chown -R ubuntu:ubuntu .
+              sudo chmod -R u+rwX .
+              git config --global --add safe.directory .
               git pull origin main
             fi
