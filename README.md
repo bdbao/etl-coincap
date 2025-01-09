@@ -124,10 +124,18 @@ aws configure
   Search for and attach the policy: AdministratorAccess.\
   Click Add permissions.
 - Check the Airflow progress in EC2 instance:
-```bash
-terraform -chdir=./terraform output -raw private_key > private_key.pem
-chmod 600 private_key.pem
-ssh -i private_key.pem ubuntu@<Public-IPv4-Address-AWS> # in: https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:sort=desc:dnsName
-  docker ps
-```
+  ```bash
+  terraform -chdir=./terraform output -raw private_key > private_key.pem
+  chmod 600 private_key.pem
+  ssh -i private_key.pem ubuntu@<Public-IPv4-Address-AWS> # in: https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:sort=desc:dnsName
+    docker ps
+  ```
 - **Start the instance** on AWS before doing CD from Github Action.
+- Update GitHub repository secrets programmatically:
+  ```bash
+  gh auth login
+  gh secret set SERVER_SSH_KEY --body "$(terraform -chdir=./terraform output -raw private_key)"
+  gh secret set REMOTE_HOST --body "$(terraform -chdir=./terraform output -raw ec2_public_dns)"
+  gh secret set REMOTE_USER --body "ubuntu"
+  gh secret list
+  ```
