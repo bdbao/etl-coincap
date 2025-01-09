@@ -112,7 +112,7 @@ sudo apt install make
 echo 'Clone git repo to EC2'
 cd /home/ubuntu && git clone ${var.repo_url}
 
-echo 'CD to data_engineering_project_template directory'
+echo 'CD to etl-coincap directory'
 cd ${var.repo_name}
 
 echo 'Start containers & Run db migrations'

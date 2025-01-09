@@ -6,7 +6,7 @@
   - [(Optional) Advanced cloud setup](#optional-advanced-cloud-setup)
     - [Prerequisites:](#prerequisites)
     - [Tear down infra](#tear-down-infra)
-    - [More edit:](#more-edit)
+    - [More steps:](#more-steps)
 
 
 # Data engineering ETL project
@@ -48,7 +48,7 @@ The `coincap_elt` DAG in the [Airflow UI](http://localhost:8080) will look like 
 
 ![DAG](./assets/images/dag.png)
 
-You can see the rendered html at [./visualizations/dashboard.html](https://github.com/josephmachado/data_engineering_project_template/blob/main/visualization/dashboard.html).
+You can see the rendered html at [./visualizations/dashboard.html](https://github.com/bdbao/etl-coincap/blob/main/visualization/dashboard.html).
 
 The file structure of our repo is as shown below:
 
@@ -70,11 +70,10 @@ If you want to run your code on an EC2 instance, with terraform, follow the step
 2. [AWS account](https://aws.amazon.com/) 
 3. [AWS CLI installed](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) and [configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
 
-You can create your GitHub repository based on this template by clicking on the `Use this template button in the **[data_engineering_project_template](https://github.com/josephmachado/data_engineering_project_template)** repository. Clone your repository and replace content in the following files
+You can create your GitHub repository based on this template by clicking on the `Use this template button in the **[etl-coincap](https://github.com/bdbao/etl-coincap)** repository. Clone your repository and replace content in the following files
 
-1. **[CODEOWNERS](https://github.com/josephmachado/data_engineering_project_template/blob/main/.github/CODEOWNERS)**: In this file change the user id from `@josephmachado` to your Github user id.
-2. **[cd.yml](https://github.com/josephmachado/data_engineering_project_template/blob/main/.github/workflows/cd.yml)**: In this file change the `data_engineering_project_template` part of the `TARGET` parameter to your repository name.
-3. **[variable.tf](https://github.com/josephmachado/data_engineering_project_template/blob/main/terraform/variable.tf)**: In this file change the default values for `alert_email_id` and `repo_url` variables with your email and [github repository url](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/GitHub-URL-find-use-example) respectively.
+1. **[cd.yml](https://github.com/bdbao/etl-coincap/blob/main/.github/workflows/cd.yml)**: In this file change the `etl-coincap` part of the `TARGET` parameter to your repository name.
+2. **[variable.tf](https://github.com/bdbao/etl-coincap/blob/main/terraform/variable.tf)**: In this file change the default values for `alert_email_id` and `repo_url` variables with your email and [github repository url](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/GitHub-URL-find-use-example) respectively.
 
 Run the following commands in your project directory.
 
@@ -92,10 +91,10 @@ make cloud-airflow # this command will forward Airflow port from EC2 to your mac
 # the user name and password are both airflow
 
 make cloud-metabase # this command will forward Metabase port from EC2 to your machine and opens it in the browser
-# use https://github.com/josephmachado/data_engineering_project_template/blob/main/env file to connect to the warehouse from metabase
+# use https://github.com/bdbao/etl-coincap/blob/main/env file to connect to the warehouse from metabase
 ```
 
-For the [continuous delivery](https://github.com/josephmachado/data_engineering_project_template/blob/main/.github/workflows/cd.yml) to work, set up the infrastructure with terraform, & defined the following repository secrets. You can set up the repository secrets by going to `Settings > Secrets > Actions > New repository secret`.
+For the [continuous delivery](https://github.com/bdbao/etl-coincap/blob/main/.github/workflows/cd.yml) to work, set up the infrastructure with terraform, & defined the following repository secrets. You can set up the repository secrets by going to `Settings > Secrets > Actions > New repository secret`.
 
 1. **`SERVER_SSH_KEY`**: We can get this by running `terraform -chdir=./terraform output -raw private_key` in the project directory and paste the entire content in a new Action secret called SERVER_SSH_KEY.
 2. **`REMOTE_HOST`**: Get this by running `terraform -chdir=./terraform output -raw ec2_public_dns` in the project directory.
@@ -110,32 +109,58 @@ make down # Stop docker containers on your computer
 make infra-down # type in yes after verifying the changes TF will make
 ```
 
-### More edit:
+### More steps:
 - Install `aws-cli`:
-```bash
-brew install awscli
-aws configure
-```
-- Add `AdministratorAccess` permission to User: \
-  Log into **AWS Console permissions** (like: https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/users/details/aws_01?section=permissions)\
-  Go to IAM > Users.\
-  Select the user aws_01.\
-  Click Add permissions → Attach policies directly.\
-  Search for and attach the policy: AdministratorAccess.\
-  Click Add permissions.
+  ```bash
+  brew install awscli
+  aws configure
+  ```
+- How to Get AWS Credentials (Access Key & Secret Key):
+  ```
+  Log in to the AWS Console:
+
+  Go to https://aws.amazon.com/
+  Sign in with your AWS account.
+  Navigate to IAM (Identity and Access Management):
+
+  Search for IAM in the AWS Management Console.
+  Click Users on the left panel.
+  Create or Select a User:
+
+  If you already have a user:
+  Click the username.
+  Go to the Security credentials tab.
+  If you don't have a user:
+  Click Add User.
+  Provide a username and enable Programmatic access (for CLI and API use).
+  Attach the AdministratorAccess policy for testing purposes (or limit permissions based on your use case).
+  Create an Access Key:
+
+  Click Create access key.
+  Download the .csv file or copy the Access Key ID and Secret Access Key.
+  ```
+  - Add `AdministratorAccess` permission to User:
+    ```
+    Log into **AWS Console permissions** (like: https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/users/details/aws_01?section=permissions)
+    Go to IAM > Users.
+    Select the user aws_01.
+    Click Add permissions -> Attach policies directly.
+    Search for and attach the policy: AdministratorAccess.
+    Click Add permissions.
+    ```
 - Check the Airflow progress in EC2 instance:
   ```bash
   terraform -chdir=./terraform output -raw private_key > private_key.pem
   chmod 600 private_key.pem
   ssh -i private_key.pem ubuntu@<Public-IPv4-Address-AWS> # in: https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:sort=desc:dnsName
-    docker ps
+    docker ps # See 3 services, that's done!
   ```
-- **Start the instance** on AWS before doing CD from Github Action.
 - Update GitHub repository secrets programmatically:
   ```bash
   gh auth login
-  gh secret set SERVER_SSH_KEY --body "$(terraform -chdir=./terraform output -raw private_key)"
   gh secret set REMOTE_HOST --body "$(terraform -chdir=./terraform output -raw ec2_public_dns)"
+  gh secret set SERVER_SSH_KEY --body "$(terraform -chdir=./terraform output -raw private_key)"
   gh secret set REMOTE_USER --body "ubuntu"
   gh secret list
   ```
+- **Start the instance** on AWS before doing CD from Github Action.
