@@ -15,4 +15,4 @@
 #           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
 #           REMOTE_USER: ${{ secrets.REMOTE_USER }}
 #           SOURCE: "./"
-#           TARGET: "/home/ubuntu/data_engineering_project_template"
+#           TARGET: "/home/ubuntu/etl-coincap"

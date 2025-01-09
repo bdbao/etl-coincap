@@ -105,4 +105,16 @@ After you are done, make sure to destroy your cloud infrastructure.
 make down # Stop docker containers on your computer
 make infra-down # type in yes after verifying the changes TF will make
 ```
+
+
+```bash
+brew install awscli
+aws --version
+aws configure
+
+
+for line in (cat .env)
+    set -gx (echo $line | cut -d '=' -f1) (echo $line | cut -d '=' -f2-)
+end
+```
 -->
