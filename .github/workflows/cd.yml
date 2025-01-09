@@ -16,9 +16,9 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            cd /home/ubuntu
             if [ ! -d "/home/ubuntu/etl-coincap" ]; then
-              git clone https://github.com/bdbao/etl-coincap /home/ubuntu/etl-coincap
+              git clone https://github.com/bdbao/etl-coincap
             else
-              cd /home/ubuntu/etl-coincap
               sudo rsync -avz --delete ./ /home/ubuntu/etl-coincap
             fi
