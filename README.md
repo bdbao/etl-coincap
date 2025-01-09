@@ -3,6 +3,10 @@
     - [Run locally](#run-locally)
   - [Architecture and services in this template](#architecture-and-services-in-this-template)
   - [Writing pipelines](#writing-pipelines)
+  - [(Optional) Advanced cloud setup](#optional-advanced-cloud-setup)
+    - [Prerequisites:](#prerequisites)
+    - [Tear down infra](#tear-down-infra)
+    - [More edit:](#more-edit)
 
 
 # Data engineering ETL project
@@ -56,7 +60,6 @@ We have a sample pipeline at [coincap_elt.py](./dags/coincap_elt.py) that you ca
 
 Once the `coincap_elt` DAG runs, we can see the dashboard html at [./visualization/dashboard.html](./visualization/dashboard.html) and will look like ![Dashboard](./assets/images/dash.png).
 
-<!---
 ## (Optional) Advanced cloud setup
 
 If you want to run your code on an EC2 instance, with terraform, follow the steps below.
@@ -129,11 +132,11 @@ Click Add permissions → Attach policies directly.
 Search for and attach the policy: AdministratorAccess.
 Click Add permissions.
 
+### More edit:
 - Check the Airflow progress in EC2 instance:
 ```bash
 terraform -chdir=./terraform output -raw private_key > private_key.pem
 chmod 600 private_key.pem
-ssh -i private_key.pem ubuntu@<Public-IPv4-Address-AWS># 100.26.222.71  
+ssh -i private_key.pem ubuntu@<Public-IPv4-Address-AWS> # in: https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:sort=desc:dnsName
   docker ps
 ```
--->
