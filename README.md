@@ -83,6 +83,7 @@ make infra-up # type in yes after verifying the changes TF will make
 # Wait until the EC2 instance is initialized, you can check this via your AWS UI
 # See "Status Check" on the EC2 console, it should be "2/2 checks passed" before proceeding
 # Wait another 5 mins, Airflow takes a while to start up
+# Link: https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:
 
 make cloud-airflow # this command will forward Airflow port from EC2 to your machine and opens it in the browser
 # the user name and password are both airflow
@@ -116,5 +117,15 @@ aws configure
 for line in (cat .env)
     set -gx (echo $line | cut -d '=' -f1) (echo $line | cut -d '=' -f2-)
 end
+echo $AWS_ACCESS_KEY_ID
+echo $AWS_SECRET_ACCESS_KEY
+echo $AWS_DEFAULT_REGION
 ```
+
+Log into AWS Console. (https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/users/details/aws_01?section=permissions)
+Go to IAM > Users.
+Select the user aws_01.
+Click Add permissions → Attach policies directly.
+Search for and attach the policy: AdministratorAccess.
+Click Add permissions.
 -->
