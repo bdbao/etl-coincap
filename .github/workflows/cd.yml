@@ -19,7 +19,6 @@ jobs:
             REPO_PATH="/home/ubuntu/etl-coincap"
             if [ ! -d "$REPO_PATH/.git" ]; then
               git clone https://github.com/bdbao/etl-coincap "$REPO_PATH"
-            fi
             else
               cd "$REPO_PATH"
               sudo chown -R ubuntu:ubuntu .
