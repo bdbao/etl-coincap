@@ -58,11 +58,11 @@ The file structure of our repo is as shown below:
 
 We have a sample pipeline at [coincap_elt.py](./dags/coincap_elt.py) that you can use as a starter to create your own DAGs. The tests are available at [./tests](./tests) folder.
 
-Once the `coincap_elt` DAG runs, we can see the dashboard html at [./visualization/dashboard.html](./visualization/dashboard.html) and will look like ![Dashboard](./assets/images/dash.png).
+Once the `coincap_elt` DAG runs, we can see the dashboard html at [./visualization/dashboard.html](./visualization/dashboard.html) and will look like ![Dashboard](./assets/images/dash.png)
 
 ## (Optional) Advanced cloud setup
 
-If you want to run your code on an EC2 instance, with terraform, follow the steps below.
+If you want to run your code on an EC2 instance, with **Terraform**, follow the steps below.
 
 ### Prerequisites:
 
@@ -70,16 +70,16 @@ If you want to run your code on an EC2 instance, with terraform, follow the step
 2. [AWS account](https://aws.amazon.com/) 
 3. [AWS CLI installed](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) and [configured](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
 
-You can create your GitHub repository based on this template by clicking on the `Use this template button in the **[etl-coincap](https://github.com/bdbao/etl-coincap)** repository. Clone your repository and replace content in the following files
+Clone your repository and replace content in the following files
 
 1. **[cd.yml](https://github.com/bdbao/etl-coincap/blob/main/.github/workflows/cd.yml)**: In this file change the `etl-coincap` part of the `TARGET` parameter to your repository name.
-2. **[variable.tf](https://github.com/bdbao/etl-coincap/blob/main/terraform/variable.tf)**: In this file change the default values for `alert_email_id` and `repo_url` variables with your email and [github repository url](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/GitHub-URL-find-use-example) respectively.
+2. **[variable.tf](https://github.com/bdbao/etl-coincap/blob/main/terraform/variable.tf)**: In this file change the default values for `alert_email_id`, `repo_url` and `repo_name` variables with your email, [github repository url](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/GitHub-URL-find-use-example) and repository name respectively.
 
 Run the following commands in your project directory.
 
 ```shell
 # Create AWS services with Terraform
-make tf-init # Only needed on your first terraform run (or if you add new providers)
+make tf-init # Only needed on your first terraform run (or if you add new providers, or remove `.terraform/`)
 make infra-up # type in yes after verifying the changes TF will make
 
 # Wait until the EC2 instance is initialized, you can check this via your AWS UI
@@ -89,9 +89,6 @@ make infra-up # type in yes after verifying the changes TF will make
 
 make cloud-airflow # this command will forward Airflow port from EC2 to your machine and opens it in the browser
 # the user name and password are both airflow
-
-make cloud-metabase # this command will forward Metabase port from EC2 to your machine and opens it in the browser
-# use https://github.com/bdbao/etl-coincap/blob/main/env file to connect to the warehouse from metabase
 ```
 
 For the [continuous delivery](https://github.com/bdbao/etl-coincap/blob/main/.github/workflows/cd.yml) to work, set up the infrastructure with terraform, & defined the following repository secrets. You can set up the repository secrets by going to `Settings > Secrets > Actions > New repository secret`.
@@ -110,7 +107,7 @@ make infra-down # type in yes after verifying the changes TF will make
 ```
 
 ### More steps:
-- Install `aws-cli`:
+- Install `aws-cli` and configure:
   ```bash
   brew install awscli
   aws configure
@@ -119,29 +116,28 @@ make infra-down # type in yes after verifying the changes TF will make
   ```
   Log in to the AWS Console:
 
-  Go to https://aws.amazon.com/
+  Go to https://aws.amazon.com
   Sign in with your AWS account.
   Navigate to IAM (Identity and Access Management):
-
-  Search for IAM in the AWS Management Console.
-  Click Users on the left panel.
+    Search for IAM in the AWS Management Console.
+    Click Users on the left panel.
+  
   Create or Select a User:
-
-  If you already have a user:
-  Click the username.
-  Go to the Security credentials tab.
-  If you don't have a user:
-  Click Add User.
-  Provide a username and enable Programmatic access (for CLI and API use).
-  Attach the AdministratorAccess policy for testing purposes (or limit permissions based on your use case).
+    If you already have a user:
+      Click the username.
+      Go to the Security credentials tab.
+    If you don't have a user:
+      Click Add User.
+      Provide a username and enable Programmatic access (for CLI and API use).
+      Attach the AdministratorAccess policy for testing purposes (or limit permissions based on your use case).
+  
   Create an Access Key:
-
-  Click Create access key.
-  Download the .csv file or copy the Access Key ID and Secret Access Key.
+    Click Create access key. (choose: CLI usage)
+    Download the .csv file or copy the Access Key ID and Secret Access Key.
   ```
   - Add `AdministratorAccess` permission to User:
     ```
-    Log into **AWS Console permissions** (like: https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/users/details/aws_01?section=permissions)
+    Log into AWS Console permissions (like: https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/users/details/aws_01?section=permissions)
     Go to IAM > Users.
     Select the user aws_01.
     Click Add permissions -> Attach policies directly.
@@ -150,6 +146,11 @@ make infra-down # type in yes after verifying the changes TF will make
     ```
 - Check the Airflow progress in EC2 instance:
   ```bash
+  make ssh-ec2
+  # If restarting EC2, the IPv4-Address changed
+  make ssh-ec2-host <new-IPv4-Address> # in: https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:sort=desc:dnsName
+    docker ps # See 3 services, that's done!
+
   terraform -chdir=./terraform output -raw private_key > private_key.pem
   chmod 600 private_key.pem
   ssh -i private_key.pem ubuntu@<Public-IPv4-Address-AWS> # in: https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:sort=desc:dnsName

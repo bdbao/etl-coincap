@@ -4,12 +4,12 @@ from datetime import datetime, timedelta
 
 import polars as pl
 import requests
-from cuallee import Check, CheckLevel
-
-from airflow import DAG
 from airflow.decorators import task
 from airflow.operators.bash import BashOperator
 from airflow.operators.dummy import DummyOperator
+from cuallee import Check, CheckLevel
+
+from airflow import DAG
 
 with DAG(
     'coincap_elt',
