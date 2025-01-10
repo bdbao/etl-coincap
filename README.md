@@ -83,12 +83,11 @@ make tf-init # Only needed on your first terraform run (or if you add new provid
 make infra-up # type in yes after verifying the changes TF will make
 
 # Wait until the EC2 instance is initialized, you can check this via your AWS UI
-# See "Status Check" on the EC2 console, it should be "2/2 checks passed" before proceeding
-# Wait another 5 mins, Airflow takes a while to start up
-# Link: https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:
+# See "Status Check" on the EC2 console, it should be "2/2 checks passed" before proceeding. Check at: https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:
+# Wait another 5 mins, Airflow takes a while to start up. Details to check below!
 
 make cloud-airflow # this command will forward Airflow port from EC2 to your machine and opens it in the browser
-# the user name and password are both airflow
+# the user name and password are both "airflow"
 ```
 
 For the [continuous delivery](https://github.com/bdbao/etl-coincap/blob/main/.github/workflows/cd.yml) to work, set up the infrastructure with terraform, & defined the following repository secrets. You can set up the repository secrets by going to `Settings > Secrets > Actions > New repository secret`.
@@ -164,4 +163,4 @@ make infra-down # type in yes after verifying the changes TF will make
   gh secret set REMOTE_USER --body "ubuntu"
   gh secret list
   ```
-- **Start the instance** on AWS before doing CD from Github Action.
+- **Start the instance** on AWS before/while doing CD from Github Action.

@@ -1,28 +1,28 @@
-# # Note: Uncomment to start CD
-# name: CD
-# on:
-#   push:
-#     branches:
-#       - main
-#   workflow_dispatch: # Enables manual triggering on GitHub UI
-# jobs:
-#   deploy-to-ec2:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Deploy to EC2 server
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: ${{ secrets.REMOTE_HOST }}
-#           username: ${{ secrets.REMOTE_USER }}
-#           key: ${{ secrets.SERVER_SSH_KEY }}
-#           script: |
-#             REPO_PATH="/home/ubuntu/etl-coincap"
-#             if [ ! -d "$REPO_PATH/.git" ]; then
-#               git clone https://github.com/bdbao/etl-coincap "$REPO_PATH"
-#             else
-#               cd "$REPO_PATH"
-#               sudo chown -R ubuntu:ubuntu .
-#               sudo chmod -R u+rwX .
-#               git config --global --add safe.directory "$REPO_PATH"
-#               git pull origin main
-#             fi
+# Note: Uncomment to start CD
+name: CD
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Enables manual triggering on GitHub UI
+jobs:
+  deploy-to-ec2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2 server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            REPO_PATH="/home/ubuntu/etl-coincap"
+            if [ ! -d "$REPO_PATH/.git" ]; then
+              git clone https://github.com/bdbao/etl-coincap "$REPO_PATH"
+            else
+              cd "$REPO_PATH"
+              sudo chown -R ubuntu:ubuntu .
+              sudo chmod -R u+rwX .
+              git config --global --add safe.directory "$REPO_PATH"
+              git pull origin main
+            fi
